@@ -72,7 +72,7 @@ namespace UPnPTest
 				df.ShowDialog();
 			}
 		}
-		private void StopDiscovery()
+		private void StopDiscovery(int timeoutMs = 2000)
 		{
 			Thread thr = new Thread(() =>
 			{
@@ -85,7 +85,7 @@ namespace UPnPTest
 			thr.Name = "Stop Discovery";
 			thr.IsBackground = true;
 			thr.Start();
-			if (!thr.Join(1000))
+			if (!thr.Join(timeoutMs))
 			{
 				thr.Abort();
 				throw new Exception("Unable to stop discovery in a timely manner.");
