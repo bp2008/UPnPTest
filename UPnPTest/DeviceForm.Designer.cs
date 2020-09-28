@@ -39,6 +39,11 @@
 			this.label5 = new System.Windows.Forms.Label();
 			this.btnAddMapping = new System.Windows.Forms.Button();
 			this.lblStatus = new System.Windows.Forms.Label();
+			this.lbActiveMappings = new System.Windows.Forms.ListBox();
+			this.lblActiveMappings = new System.Windows.Forms.Label();
+			this.btnRefresh = new System.Windows.Forms.Button();
+			this.btnDeleteSelected = new System.Windows.Forms.Button();
+			this.btnDeleteAll = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.nudExternalPort)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudInternalPort)).BeginInit();
 			this.SuspendLayout();
@@ -156,18 +161,72 @@
 			// 
 			// lblStatus
 			// 
-			this.lblStatus.AutoSize = true;
 			this.lblStatus.Location = new System.Drawing.Point(207, 182);
 			this.lblStatus.Name = "lblStatus";
-			this.lblStatus.Size = new System.Drawing.Size(13, 13);
+			this.lblStatus.Size = new System.Drawing.Size(83, 13);
 			this.lblStatus.TabIndex = 10;
 			this.lblStatus.Text = "…";
+			// 
+			// lbActiveMappings
+			// 
+			this.lbActiveMappings.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+			this.lbActiveMappings.FormattingEnabled = true;
+			this.lbActiveMappings.Location = new System.Drawing.Point(296, 33);
+			this.lbActiveMappings.Name = "lbActiveMappings";
+			this.lbActiveMappings.Size = new System.Drawing.Size(565, 160);
+			this.lbActiveMappings.TabIndex = 11;
+			// 
+			// lblActiveMappings
+			// 
+			this.lblActiveMappings.AutoSize = true;
+			this.lblActiveMappings.Location = new System.Drawing.Point(293, 9);
+			this.lblActiveMappings.Name = "lblActiveMappings";
+			this.lblActiveMappings.Size = new System.Drawing.Size(89, 13);
+			this.lblActiveMappings.TabIndex = 12;
+			this.lblActiveMappings.Text = "Active Mappings:";
+			// 
+			// btnRefresh
+			// 
+			this.btnRefresh.Location = new System.Drawing.Point(542, 4);
+			this.btnRefresh.Name = "btnRefresh";
+			this.btnRefresh.Size = new System.Drawing.Size(75, 23);
+			this.btnRefresh.TabIndex = 13;
+			this.btnRefresh.Text = "Refresh";
+			this.btnRefresh.UseVisualStyleBackColor = true;
+			this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click);
+			// 
+			// btnDeleteSelected
+			// 
+			this.btnDeleteSelected.Location = new System.Drawing.Point(623, 4);
+			this.btnDeleteSelected.Name = "btnDeleteSelected";
+			this.btnDeleteSelected.Size = new System.Drawing.Size(116, 23);
+			this.btnDeleteSelected.TabIndex = 14;
+			this.btnDeleteSelected.Text = "Delete Selected";
+			this.btnDeleteSelected.UseVisualStyleBackColor = true;
+			this.btnDeleteSelected.Click += new System.EventHandler(this.btnDeleteSelected_Click);
+			// 
+			// btnDeleteAll
+			// 
+			this.btnDeleteAll.Location = new System.Drawing.Point(745, 4);
+			this.btnDeleteAll.Name = "btnDeleteAll";
+			this.btnDeleteAll.Size = new System.Drawing.Size(116, 23);
+			this.btnDeleteAll.TabIndex = 15;
+			this.btnDeleteAll.Text = "Delete All";
+			this.btnDeleteAll.UseVisualStyleBackColor = true;
+			this.btnDeleteAll.Click += new System.EventHandler(this.btnDeleteAll_Click);
 			// 
 			// DeviceForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(304, 212);
+			this.ClientSize = new System.Drawing.Size(873, 210);
+			this.Controls.Add(this.btnDeleteAll);
+			this.Controls.Add(this.btnDeleteSelected);
+			this.Controls.Add(this.btnRefresh);
+			this.Controls.Add(this.lblActiveMappings);
+			this.Controls.Add(this.lbActiveMappings);
 			this.Controls.Add(this.lblStatus);
 			this.Controls.Add(this.btnAddMapping);
 			this.Controls.Add(this.label5);
@@ -182,6 +241,7 @@
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
 			this.Name = "DeviceForm";
 			this.Text = "DeviceForm";
+			this.Load += new System.EventHandler(this.DeviceForm_Load);
 			((System.ComponentModel.ISupportInitialize)(this.nudExternalPort)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.nudInternalPort)).EndInit();
 			this.ResumeLayout(false);
@@ -202,5 +262,10 @@
 		private System.Windows.Forms.Label label5;
 		private System.Windows.Forms.Button btnAddMapping;
 		private System.Windows.Forms.Label lblStatus;
+		private System.Windows.Forms.ListBox lbActiveMappings;
+		private System.Windows.Forms.Label lblActiveMappings;
+		private System.Windows.Forms.Button btnRefresh;
+		private System.Windows.Forms.Button btnDeleteSelected;
+		private System.Windows.Forms.Button btnDeleteAll;
 	}
 }

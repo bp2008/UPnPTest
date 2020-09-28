@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,9 +16,10 @@ namespace UPnPTest
 {
 	public partial class MainForm : Form
 	{
-		bool scanning = false;
+		StreamWriter logWriter = new StreamWriter(new FileStream("Errors.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite));
 		public MainForm()
 		{
+			Mono.Nat.Logging.Logger.Factory = className => new Mono.Nat.Logging.TextLogger(logWriter, className);
 			InitializeComponent();
 		}
 
@@ -32,6 +34,7 @@ namespace UPnPTest
 			NatDeviceWrapper dev = new NatDeviceWrapper(e.Device, e.Device.GetExternalIP(), e.Device.NatProtocol);
 			AddListItem(dev);
 		}
+
 		private void AddListItem(NatDeviceWrapper dev)
 		{
 			if (lbNatDevices.InvokeRequired)
@@ -39,58 +42,24 @@ namespace UPnPTest
 			else
 			{
 				lbNatDevices.Items.Add(dev);
+				if (lbNatDevices.Items.Count == 1)
+					lbNatDevices.SelectedIndex = 0;
 			}
 		}
 
 		private void btnRescan_Click(object sender, EventArgs e)
 		{
-			NatUtility.StopDiscovery();
+			try
+			{
+				StopDiscovery();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.ToString());
+				return;
+			}
 			lbNatDevices.Items.Clear();
 			NatUtility.StartDiscovery(NatProtocol.Upnp, NatProtocol.Pmp);
-			//if (scanning)
-			//	return;
-			//try
-			//{
-			//	scanning = true;
-			//	lbNatDevices.Items.Clear();
-			//	lblSearching.Visible = true;
-			//	btnRescan.Enabled = false;
-			//	NatDiscoverer discoverer = new NatDiscoverer();
-			//	Task<NatDevice> getUpnpDevice = discoverer.DiscoverDeviceAsync(PortMapper.Upnp, new CancellationTokenSource(3000));
-			//	Task<NatDevice> getNatPmpDevice = discoverer.DiscoverDeviceAsync(PortMapper.Pmp, new CancellationTokenSource(3000));
-			//	List<Task<NatDevice>> tasks = new List<Task<NatDevice>>();
-			//	tasks.Add(getUpnpDevice);
-			//	tasks.Add(getNatPmpDevice);
-			//	while (tasks.Count > 0)
-			//	{
-			//		Task<NatDevice> finishedTask = await Task.WhenAny(tasks);
-			//		tasks.Remove(finishedTask);
-			//		NatDevice device = null;
-			//		NatDeviceWrapper dev;
-			//		if (finishedTask == getUpnpDevice)
-			//		{
-			//			try { device = await finishedTask; } catch { }
-			//			dev = new NatDeviceWrapper(device, device == null ? null : await device.GetExternalIPAsync(), PortMapper.Upnp);
-			//		}
-			//		else
-			//		{
-			//			try { device = await finishedTask; } catch { }
-			//			dev = new NatDeviceWrapper(device, device == null ? null : await device.GetExternalIPAsync(), PortMapper.Pmp);
-			//		}
-			//		if (dev.Device != null)
-			//		{
-			//			lbNatDevices.Items.Add(dev);
-			//		}
-			//		else
-			//			lbNatDevices.Items.Add("No " + dev.TypeName + " device");
-			//	}
-			//	lblSearching.Visible = false;
-			//}
-			//finally
-			//{
-			//	scanning = false;
-			//	btnRescan.Enabled = true;
-			//}
 		}
 
 		private void btnOpenSelected_Click(object sender, EventArgs e)
@@ -103,10 +72,33 @@ namespace UPnPTest
 				df.ShowDialog();
 			}
 		}
+		private void StopDiscovery()
+		{
+			Thread thr = new Thread(() =>
+			{
+				try
+				{
+					NatUtility.StopDiscovery();
+				}
+				catch { }
+			});
+			thr.Name = "Stop Discovery";
+			thr.IsBackground = true;
+			thr.Start();
+			if (!thr.Join(1000))
+			{
+				thr.Abort();
+				throw new Exception("Unable to stop discovery in a timely manner.");
+			}
+		}
 
 		private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
-			NatUtility.StopDiscovery();
+			try
+			{
+				StopDiscovery();
+			}
+			catch { }
 		}
 	}
 }
