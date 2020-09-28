@@ -16,10 +16,10 @@ namespace UPnPTest
 {
 	public partial class MainForm : Form
 	{
-		StreamWriter logWriter = new StreamWriter(new FileStream("Errors.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite));
+		//StreamWriter logWriter = new StreamWriter(new FileStream("Errors.txt", FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.ReadWrite));
 		public MainForm()
 		{
-			Mono.Nat.Logging.Logger.Factory = className => new Mono.Nat.Logging.TextLogger(logWriter, className);
+			//Mono.Nat.Logging.Logger.Factory = className => new Mono.Nat.Logging.TextLogger(logWriter, className);
 			InitializeComponent();
 		}
 
