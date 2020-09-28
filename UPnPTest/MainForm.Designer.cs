@@ -60,9 +60,9 @@
 			this.lblSearching.AutoSize = true;
 			this.lblSearching.Location = new System.Drawing.Point(92, 9);
 			this.lblSearching.Name = "lblSearching";
-			this.lblSearching.Size = new System.Drawing.Size(59, 13);
+			this.lblSearching.Size = new System.Drawing.Size(56, 13);
 			this.lblSearching.TabIndex = 2;
-			this.lblSearching.Text = "(searching)";
+			this.lblSearching.Text = "(scanning)";
 			// 
 			// btnRescan
 			// 
@@ -70,7 +70,7 @@
 			this.btnRescan.Name = "btnRescan";
 			this.btnRescan.Size = new System.Drawing.Size(102, 23);
 			this.btnRescan.TabIndex = 1;
-			this.btnRescan.Text = "Rescan";
+			this.btnRescan.Text = "Restart Scan";
 			this.btnRescan.UseVisualStyleBackColor = true;
 			this.btnRescan.Click += new System.EventHandler(this.btnRescan_Click);
 			// 
@@ -97,6 +97,7 @@
 			this.Controls.Add(this.lbNatDevices);
 			this.Name = "MainForm";
 			this.Text = "UPnPTest";
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
 			this.Load += new System.EventHandler(this.MainForm_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();

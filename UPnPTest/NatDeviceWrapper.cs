@@ -1,4 +1,4 @@
-﻿using Open.Nat;
+﻿using Mono.Nat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,17 @@ namespace UPnPTest
 {
 	public class NatDeviceWrapper
 	{
-		public readonly NatDevice Device;
+		public readonly INatDevice Device;
 		public readonly IPAddress ExternalIP;
-		public readonly PortMapper Type;
+		public readonly NatProtocol Type;
 		public readonly string TypeName;
 
-		public NatDeviceWrapper(NatDevice device, IPAddress externalIP, PortMapper type)
+		public NatDeviceWrapper(INatDevice device, IPAddress externalIP, NatProtocol type)
 		{
 			this.Device = device;
 			this.ExternalIP = externalIP;
 			this.Type = type;
-			this.TypeName = Type == PortMapper.Upnp ? "UPnP" : "NAT-PMP";
+			this.TypeName = Type == NatProtocol.Upnp ? "UPnP" : "NAT-PMP";
 		}
 
 		public override string ToString()
